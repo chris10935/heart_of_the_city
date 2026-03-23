@@ -61,15 +61,58 @@
       background: transparent; border: 1px solid var(--gold);
       color: var(--gold); padding: 9px 22px;
       font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      text-decoration: none; transition: all .3s ease;
+      text-decoration: none; transition: all .3s ease; white-space: nowrap;
     }
     .nav-cta:hover { background: var(--gold); color: var(--black); }
+    @media(max-width:768px){ .desktop-cta{ display:none; } }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; background: none; border: none; cursor: pointer;
+      padding: 4px; z-index: 1100;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--white); transition: transform .35s ease, opacity .25s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-drawer {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(8,8,8,.97); backdrop-filter: blur(18px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 0;
+      opacity: 0; transform: translateY(-16px); pointer-events: none;
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .mobile-drawer.active {
+      opacity: 1; transform: translateY(0); pointer-events: all;
+    }
+    .mobile-drawer a {
+      color: rgba(255,255,255,.8); text-decoration: none;
+      font-size: 1.6rem; font-family: 'Playfair Display', serif; font-weight: 700;
+      padding: 18px 0; letter-spacing: .02em;
+      border-bottom: 1px solid rgba(255,255,255,.06); width: 72%; text-align: center;
+      transition: color .2s;
+    }
+    .mobile-drawer a:hover { color: var(--gold); }
+    .mobile-drawer .mob-cta {
+      margin-top: 32px; font-family: 'Inter', sans-serif;
+      font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+      background: var(--gold); color: var(--black); padding: 14px 40px;
+      border: none; font-weight: 700; width: 72%;
+    }
 
     /* ─── HERO ────────────────────────────────── */
     #hero {
       min-height: 100vh;
       position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center; text-align: center;
+      padding-top: 80px;
     }
     .hero-bg {
       position: absolute; inset: 0;
@@ -95,9 +138,10 @@
       display: inline-block;
       border: 1px solid rgba(201,149,106,.45);
       color: var(--gold); font-size: .7rem;
-      letter-spacing: .28em; text-transform: uppercase;
-      padding: 7px 20px; margin-bottom: 40px;
+      letter-spacing: .18em; text-transform: uppercase;
+      padding: 7px 18px; margin-bottom: 36px;
       opacity: 0; animation: fadeDown .8s ease .25s forwards;
+      max-width: 100%; word-break: break-word;
     }
     .hero-h1 {
       font-family: 'Playfair Display', serif;
@@ -121,7 +165,7 @@
       background: var(--gold); color: var(--black);
       padding: 17px 44px; border: none;
       font-size: .82rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-      text-decoration: none; display: inline-block;
+      text-decoration: none; display: inline-block; text-align: center;
       position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;
     }
     .btn-gold::after {
@@ -136,7 +180,7 @@
       background: transparent; color: var(--white);
       padding: 17px 44px; border: 1px solid rgba(255,255,255,.22);
       font-size: .82rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-      text-decoration: none; display: inline-block; transition: all .3s ease;
+      text-decoration: none; display: inline-block; text-align: center; transition: all .3s ease;
     }
     .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
     .hero-scroll {
@@ -194,7 +238,7 @@
     }
     .about-img-wrap::before {
       content: ''; position: absolute;
-      inset: -18px; border: 1px solid rgba(201,149,106,.16);
+      inset: -14px; border: 1px solid rgba(201,149,106,.16);
       transform: rotate(1.8deg); z-index: 0;
     }
     .about-visual {
@@ -260,7 +304,7 @@
 
     /* ─── GALLERY ─────────────────────────────── */
     #gallery { padding: 0; background: var(--black); }
-    .gal-head { text-align: center; padding: 110px 64px 64px; }
+    .gal-head { text-align: center; padding: 110px 64px 64px; max-width: 100%; }
     .gal-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -410,17 +454,49 @@
       .about-grid{grid-template-columns:1fr;gap:52px}
       .feat-grid{grid-template-columns:1fr 1fr}
       .footer-grid{grid-template-columns:1fr 1fr}
+      .gal-head{padding:90px 40px 52px}
     }
     @media(max-width:768px){
-      section{padding:80px 22px}
-      #navbar,#navbar.scrolled{padding-left:22px;padding-right:22px}
+      section{padding:80px 20px}
+      #navbar,#navbar.scrolled{padding:14px 20px}
       .nav-links{display:none}
-      .feat-grid{grid-template-columns:1fr}
-      .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px 200px}
+      .hamburger{display:flex}
+      .mobile-drawer{display:flex}
+      #hero{padding-top:70px; min-height:100svh}
+      .hero-content{padding:0 18px}
+      .hero-badge{font-size:.62rem;letter-spacing:.14em;padding:6px 14px;margin-bottom:26px}
+      .hero-h1{font-size:clamp(2.6rem,11vw,4rem);margin-bottom:20px}
+      .hero-sub{font-size:.95rem;margin-bottom:36px}
+      .hero-btns{flex-direction:column;align-items:stretch;gap:12px;padding:0 4px}
+      .btn-gold,.btn-ghost{padding:16px 24px;width:100%;font-size:.78rem}
+      .feat-card{padding:38px 28px}
+      .feat-grid{grid-template-columns:1fr;gap:2px}
+      .gal-head{padding:80px 20px 44px}
+      .gal-grid{
+        grid-template-columns:1fr 1fr;
+        grid-template-rows:repeat(4,160px);
+      }
       .gal-item:nth-child(1){grid-column:span 2}
       .gal-item:nth-child(5){grid-column:span 2}
-      .footer-grid{grid-template-columns:1fr}
-      .footer-bot{flex-direction:column;gap:10px;text-align:center}
+      #cta{padding:100px 20px}
+      .about-visual{height:320px}
+      .about-img-wrap::before{display:none}
+      footer{padding:72px 20px 32px}
+      .footer-grid{grid-template-columns:1fr;gap:44px}
+      .footer-map iframe{width:100%;height:220px}
+      .footer-bot{flex-direction:column;gap:10px;text-align:center;padding-top:22px}
+    }
+    @media(max-width:480px){
+      .hero-h1{font-size:clamp(2.2rem,13vw,3.4rem)}
+      .hero-badge{font-size:.58rem;letter-spacing:.1em}
+      .title{font-size:clamp(1.9rem,8vw,3rem)}
+      .cta-inner .title{font-size:clamp(2rem,9vw,3.4rem)}
+      .feat-card{padding:32px 22px}
+      .gal-grid{grid-template-columns:1fr;grid-template-rows:auto}
+      .gal-item{height:200px}
+      .gal-item:nth-child(1),.gal-item:nth-child(5){grid-column:span 1}
+      .footer-brand img{height:48px}
+      #cta{padding:80px 18px}
     }
   </style>
 </head>
@@ -435,8 +511,20 @@
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a class="nav-cta" href="#cta">Book Now</a>
+  <a class="nav-cta desktop-cta" href="#cta">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#about"   class="mob-link">About</a>
+  <a href="#features" class="mob-link">Venue</a>
+  <a href="#gallery"  class="mob-link">Gallery</a>
+  <a href="#contact"  class="mob-link">Contact</a>
+  <a href="#cta" class="btn-gold mob-cta">Book Your Event</a>
+</div>
 
 <!-- ═══════════════════════ HERO ══════════════════════ -->
 <section id="hero">
@@ -667,6 +755,22 @@
 </footer>
 
 <script>
+  // ── Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const drawer    = document.getElementById('mobileDrawer');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    drawer.classList.toggle('active', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      drawer.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+
   // ── Nav shrink on scroll
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
